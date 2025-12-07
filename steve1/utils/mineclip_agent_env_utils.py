@@ -39,7 +39,7 @@ def make_agent(in_model, in_weights, cond_scale):
     agent_policy_kwargs, agent_pi_head_kwargs = load_model_parameters(in_model)
     env = gym.make("MineRLBasaltFindCave-v0")
     # Make conditional agent
-    agent = MineRLConditionalAgent(env, device='cuda', policy_kwargs=agent_policy_kwargs,
+    agent = MineRLConditionalAgent(env, device=DEVICE, policy_kwargs=agent_policy_kwargs,
                                    pi_head_kwargs=agent_pi_head_kwargs)
     agent.load_weights(in_weights)
     agent.reset(cond_scale=cond_scale)

@@ -13,6 +13,7 @@ from steve1.run_agent.programmatic_eval import ProgrammaticEvaluator
 from steve1.utils.embed_utils import get_prior_embed
 from steve1.utils.mineclip_agent_env_utils import load_mineclip_agent_env, load_mineclip_wconfig
 from steve1.utils.video_utils import save_frames_as_video
+from steve1.run_agent.run_chain import run_agent_chain
 
 FPS = 30
 

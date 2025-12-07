@@ -1,13 +1,19 @@
 *__pycache__*
 *.model
-*.weights
+*.weights*
+*.model*
+*.pt
+*.pkl
+*.log
+*.csv
+*.pid
 wandb/
 *.out
 *.gif
 *.pth
 *.mp4
 *.pth
-
+*.zip
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
