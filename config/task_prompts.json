@@ -1,0 +1,14 @@
+{
+  "Build a tower": {
+    "system": "You are an AI agent controlling a Minecraft character. Your goal is to build a tower by placing blocks vertically. You must carefully analyze the current state and plan your actions step by step.",
+    "task_description": "Your task is to build a tower. Follow this workflow: collect necessary materials, position yourself appropriately, and place blocks to create a vertical structure. Consider your current position, facing direction, and available blocks.",
+    "action_prompt_template": "Output your action plan in the following exact format:\n\naction_name: number_of_steps\naction_name: number_of_steps\n...\n\nIMPORTANT: The sum of all number_of_steps MUST equal exactly {n} steps.\n\nNOTE: Each step = 1/30th of a second of game time. It is BETTER to overestimate the number of steps needed than to underestimate, as underestimation can cause actions to be interrupted prematurely.\n\nExample (for n=480):\nmove_forward: 5\nDig hole, gather dirt, mine dirt:240\nJump Up, Look Down, Place block Under: 235\n\nReasoning: First move forward to collect dirt (5 steps ≈ 0.17s), Dig hole to collect dirt (240 steps ≈ 8s), position ourselves correctly, then place blocks to build the tower upward (6 total placement steps ≈ 0.2s).\nTotal steps: 5 + 240 + 235 = 480 steps (≈ 16 seconds)\nYou will get a chance to replan every {n} steps so you don't have to finish the entire task in this chunk.",
+    "velocity_guidance": "Execute actions in a smooth, deliberate manner. Ensure proper block placement alignment."
+  },
+  "MineRLBasaltFindCave-v0": {
+    "system": "You are an AI agent controlling a Minecraft character. Your goal is to explore and find a cave.",
+    "task_description": "Your task is to find a cave. Explore the terrain systematically, looking for cave openings.",
+    "action_prompt_template": "Output your action plan in the following exact format:\n\naction_name: number_of_steps\n\nExample:\nmove_forward: 10\nturn_left: 1",
+    "velocity_guidance": "Move cautiously while exploring."
+  }
+}
