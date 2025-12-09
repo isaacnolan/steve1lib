@@ -27,6 +27,7 @@ from steve1.data.text_alignment.vae import load_vae_model
 from steve1.utils.embed_utils import get_prior_embed
 from steve1.utils.mineclip_agent_env_utils import load_mineclip_agent_env, load_mineclip_wconfig
 from steve1.utils.video_utils import save_frames_as_video
+from steve1.run_agent.programmatic_eval import ProgrammaticEvaluator
 from steve1.ender.prompt_builder import PromptBuilder
 from steve1.ender.parsers import VLMResponseParser
 from steve1.ender.image_processor import ImageProcessor
@@ -107,6 +108,9 @@ def run_llm_chain(
     # Initialize frame collection for video saving
     gameplay_frames = []
     current_action_name = "waiting"
+    
+    # Initialize evaluator
+    prog_evaluator = ProgrammaticEvaluator(obs)
 
     # Models will be loaded on first plan generation
     prior = None
@@ -210,6 +214,9 @@ def run_llm_chain(
 
                     # Step the environment
                     obs, _, done, _ = env.step(minerl_action)
+                    
+                    # Update evaluator
+                    prog_evaluator.update(obs)
 
                     # Update current image from observation
                     current_image = obs['pov']
@@ -267,8 +274,32 @@ def run_llm_chain(
                 save_filepath = os.path.join(save_video_dirpath, video_filename)
                 save_frames_as_video(gameplay_frames, save_filepath, FPS, to_bgr=True)
                 logger.info(f"Saved gameplay video to {save_filepath}")
+                
+                # Save evaluation plots and stats
+                plot_dir = os.path.dirname(save_filepath)
+                
+                # Save Y-pos plot
+                plot_path = os.path.join(plot_dir, f'ypos_plot_{timestamp}.png')
+                prog_evaluator.save_ypos_plot(plot_path)
+
+                # Save Delta Y plot
+                delta_plot_path = os.path.join(plot_dir, f'delta_y_plot_{timestamp}.png')
+                prog_evaluator.save_delta_y_plot(delta_plot_path)
+
+                # Save Dirt plot
+                dirt_plot_path = os.path.join(plot_dir, f'dirt_plot_{timestamp}.png')
+                prog_evaluator.save_dirt_plot(dirt_plot_path)
+
+                # Save Combined plot
+                combined_plot_path = os.path.join(plot_dir, f'combined_plot_{timestamp}.png')
+                prog_evaluator.save_combined_plot(combined_plot_path)
+                
+                # Save stats
+                stats_path = os.path.join(plot_dir, f'stats_{timestamp}.json')
+                prog_evaluator.save_stats(stats_path)
+                
             except Exception as e:
-                logger.error(f"Failed to save video: {e}")
+                logger.error(f"Failed to save video or stats: {e}")
 
     logger.info(f"LLM chain completed at step {current_step}/{max_steps}")
 

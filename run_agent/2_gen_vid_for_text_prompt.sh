@@ -7,4 +7,4 @@ xvfb-run -a python steve1/run_agent/run_agent.py \
 --visual_cond_scale 7.0 \
 --gameplay_length 1000 \
 --save_dirpath data/generated_videos/custom_text_prompt \
---custom_text_prompt "get dirt, dig hole, dig dirt, gather a ton of dirt, collect dirt"
+--custom_text_prompt "turn right"

@@ -11,7 +11,7 @@
 # Example usage:
 # ./5_run_llm_chain.sh
 
-COMMAND="python steve1/run_agent/run_llm_chain.py \
+COMMAND="xvfb-run -a python steve1/run_agent/run_llm_chain.py \
     --task 'Build a tower' \
     --replan-interval 120 \
     --max-steps 2000 \

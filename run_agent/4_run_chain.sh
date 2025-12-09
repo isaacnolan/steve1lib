@@ -7,14 +7,15 @@
 # Example usage of the prompt chain script
 # Format: "prompt1:duration1,prompt2:duration2,..."
 # Duration is in steps (20 steps = 1 second approx)
+#prompt_chain="Explore, go as high as possible, climb the nearest hill':1000; 'get dirt, dig hole, dig dirt, gather a ton of dirt, collect dirt':1000; 'build a tower':1000"
 
 COMMAND="xvfb-run -a python steve1/run_agent/run_chain.py \
     --in_model data/weights/vpt/2x.model \
     --in_weights data/weights/steve1/steve1.weights \
     --prior_weights data/weights/steve1/steve1_prior.pt \
-    --text_cond_scale 6.0 \
+    --text_cond_scale 2.0 \
     --save_dirpath data/generated_videos/chain_test \
-    --prompt_chain \"'get dirt, dig hole, dig dirt, gather a ton of dirt, collect dirt':1000; 'build a tower':1000\""
+    --prompt_chain \"Explore, go as high as possible, climb the nearest hill, don't go down':1000; 'stay at a high place, get dirt, dig hole, dig dirt, gather a ton of dirt, collect dirt':1000; 'build a tower':1000\""
 
 # Run the command and get its exit status
 eval $COMMAND
