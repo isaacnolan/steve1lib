@@ -46,7 +46,7 @@ def run_llm_chain(
     temperature: float = 0.7,
     max_tokens: int = 512,
     max_history_length: int = 5,
-    llm_model: str = "gpt-4o-mini",
+    llm_model: str = "gpt-4o-mini-2024-07-18",
     in_model: str = "data/weights/vpt/2x.model",
     in_weights: str = "data/weights/steve1/steve1.weights",
     cond_scale: float = 6.0,
@@ -224,14 +224,15 @@ def run_llm_chain(
                     # Collect frame with action label for video
                     if save_video_dirpath is not None:
                         try:
-                            # Resize frame to 128x128 for video
-                            frame = cv2.resize(current_image, (128, 128))
+                            # Make a copy to ensure the array is contiguous and writable for OpenCV
+                            frame = current_image.copy()
+                            # frame = cv2.resize(frame, (128, 128)) # Keep original resolution (640x360)
 
                             # Add action label at bottom of frame
                             # Draw black background for text
-                            cv2.rectangle(frame, (0, 108), (128, 128), (0, 0, 0), -1)
+                            cv2.rectangle(frame, (0, 330), (640, 360), (0, 0, 0), -1)
                             # Draw action text
-                            cv2.putText(frame, action_name[:20], (2, 120), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (255, 255, 255), 1)
+                            cv2.putText(frame, action_name[:50], (10, 350), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
 
                             gameplay_frames.append(frame)
                         except Exception as e:
@@ -355,8 +356,8 @@ if __name__ == '__main__':
     parser.add_argument(
         '--model',
         type=str,
-        default='gpt-4o-mini',
-        help='LLM model to use (e.g., gpt-4o-mini, gpt-3.5-turbo, claude-3.5-sonnet)'
+        default='gpt-4o-mini-2024-07-18',
+        help='LLM model to use (e.g., gpt-4o-mini-2024-07-18, gpt-4o-2024-11-20, claude-3-5-sonnet-20240620)'
     )
 
     # Agent and environment parameters

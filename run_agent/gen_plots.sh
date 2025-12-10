@@ -17,7 +17,8 @@ cd $SLURM_SUBMIT_DIR
 
 # Create logs directory if it doesn't exist
 mkdir -p logs
-
+source /users/PAS2926/inolan/miniconda/etc/profile.d/conda.sh
+conda activate steve1
 # Command from 6_run_multi_chain.sh
 COMMAND="xvfb-run -a python steve1/run_agent/run_chain.py \
     --in_model data/weights/vpt/2x.model \

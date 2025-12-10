@@ -80,7 +80,8 @@ def run_agent_chain(prompt_chain, save_video_filepath, in_model, in_weights, see
                 minerl_action = agent.get_action(obs, prompt_embed)
 
             obs, _, _, _ = env.step(minerl_action)
-            frame = obs['pov']
+            # Make a copy to ensure the array is contiguous and writable for OpenCV
+            frame = obs['pov'].copy()
             # frame = cv2.resize(frame, (128, 128)) # Keep original resolution (640x360)
             
             # Add text overlay for current prompt
@@ -152,7 +153,7 @@ if __name__ == '__main__':
             chain_content = chain_arg
 
         # Parse chain
-        chain_parts = chain_content.split(',')
+        chain_parts = chain_content.split(';')
         parsed_chain = []
         for part in chain_parts:
             part = part.strip()

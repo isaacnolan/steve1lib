@@ -59,7 +59,16 @@ class ProgrammaticEvaluator:
 
     def save_stats(self, save_path):
         """Save evaluation statistics to a JSON file."""
-        stats = self.prog_values.copy()
+        stats = {}
+        # Convert numpy types to python types for JSON serialization
+        for k, v in self.prog_values.items():
+            if isinstance(v, (np.integer, np.int32, np.int64)):
+                stats[k] = int(v)
+            elif isinstance(v, (np.floating, np.float32, np.float64)):
+                stats[k] = float(v)
+            else:
+                stats[k] = v
+
         if self.ypos_history:
             stats['delta_y'] = float(self.ypos_history[-1] - self.ypos_history[0])
             stats['final_y'] = float(self.ypos_history[-1])

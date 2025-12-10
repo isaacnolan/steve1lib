@@ -45,13 +45,13 @@ def get_completion(messages):
     Wrapper to ensure all calls use the correct model and client.
     """
     response = client.chat.completions.create(
-        model="llama-3.2",  # Updated to Llama 3.2 as requested
+        model="gpt-4o-mini-2024-07-18",  # Updated to a valid model
         messages=messages
     )
     return response
 
 def query_model(messages: List[Dict[str, Any]],
-                model: str = "llama-3.2",
+                model: str = "gpt-4o-mini-2024-07-18",
                 temperature: float = 0.7,
                 max_tokens: int = 512) -> str:
     """
@@ -59,7 +59,7 @@ def query_model(messages: List[Dict[str, Any]],
 
     Args:
         messages: List of message dictionaries in OpenAI format
-        model: Model name to use (default: llama-3.2)
+        model: Model name to use (default: gpt-4o-mini-2024-07-18)
         temperature: Sampling temperature (default: 0.7)
         max_tokens: Maximum tokens in response (default: 512)
 
