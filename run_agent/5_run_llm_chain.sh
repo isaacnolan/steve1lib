@@ -14,7 +14,7 @@
 COMMAND="xvfb-run -a python steve1/run_agent/run_llm_chain.py \
     --task 'Build a tower' \
     --replan-interval 120 \
-    --max-steps 2000 \
+    --max-steps 3000 \
     --temperature 0.7 \
     --max-tokens 512 \
     --max-history 5 \

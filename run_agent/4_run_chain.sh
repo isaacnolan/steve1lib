@@ -13,9 +13,16 @@ COMMAND="xvfb-run -a python steve1/run_agent/run_chain.py \
     --in_model data/weights/vpt/2x.model \
     --in_weights data/weights/steve1/steve1.weights \
     --prior_weights data/weights/steve1/steve1_prior.pt \
-    --text_cond_scale 2.0 \
+    --text_cond_scale 6.0 \
     --save_dirpath data/generated_videos/chain_test \
-    --prompt_chain \"Explore, go as high as possible, climb the nearest hill, don't go down':1000; 'stay at a high place, get dirt, dig hole, dig dirt, gather a ton of dirt, collect dirt':1000; 'build a tower':1000\""
+     --prompt_chain \
+        \"Look at the Sky|Look at the Sky:500\" \
+        \"Dig|Dig as far as possible:500\" \
+        \"Turn Right|turn right:500\" \
+        \"Stay Still|stay absolutely still, don't move the character at all:500\" \
+        \"Jump Up and Down|jump up and down repeatedly:500\" \
+        \"Move in a Circle|move in a circle:500\" \
+        \"Look Down and Spin|look down at the ground and spin around:500\""
 
 # Run the command and get its exit status
 eval $COMMAND

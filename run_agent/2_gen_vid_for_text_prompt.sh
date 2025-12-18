@@ -7,4 +7,4 @@ xvfb-run -a python steve1/run_agent/run_agent.py \
 --visual_cond_scale 7.0 \
 --gameplay_length 1000 \
 --save_dirpath data/generated_videos/custom_text_prompt \
---custom_text_prompt "turn right"
+--custom_text_prompt "turn right" "stay absolutely still, don't move the character at all" "jump up and down repeatedly" "move in a circle" "look down at the ground and spin around"

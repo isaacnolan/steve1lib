@@ -38,8 +38,9 @@ def run_agent(prompt_embed, gameplay_length, save_video_filepath,
             minerl_action = agent.get_action(obs, prompt_embed)
 
         obs, _, _, _ = env.step(minerl_action)
-        frame = obs['pov']
-        frame = cv2.resize(frame, (128, 128))
+        # Make a copy to ensure the array is contiguous and writable for OpenCV
+        frame = obs['pov'].copy()
+        # Keep original resolution (640x360) instead of downscaling
         gameplay_frames.append(frame)
 
         prog_evaluator.update(obs)
@@ -50,6 +51,9 @@ def run_agent(prompt_embed, gameplay_length, save_video_filepath,
 
     # Print the programmatic eval task results at the end of the gameplay
     prog_evaluator.print_results()
+    
+    # Close the environment to free resources
+    env.close()
 
 
 def generate_text_prompt_videos(prompt_embeds, in_model, in_weights, cond_scale, gameplay_length, save_dirpath):
@@ -83,15 +87,21 @@ if __name__ == '__main__':
     parser.add_argument('--visual_cond_scale', type=float, default=7.0)
     parser.add_argument('--gameplay_length', type=int, default=1000)
     parser.add_argument('--save_dirpath', type=str, default='data/generated_videos/')
-    parser.add_argument('--custom_text_prompt', type=str, default=None)
+    parser.add_argument('--custom_text_prompt', type=str, nargs='+', default=None,
+                        help='One or more text prompts to generate videos for. Use quotes for multi-word prompts.')
     args = parser.parse_args()
 
     if args.custom_text_prompt is not None:
-        # Generate a video for the text prompt
+        # Generate videos for multiple text prompts
         mineclip = load_mineclip_wconfig()
         prior = load_vae_model(PRIOR_INFO)
-        prompt_embed = get_prior_embed(args.custom_text_prompt, mineclip, prior, DEVICE)
-        custom_prompt_embeds = {args.custom_text_prompt: prompt_embed}
+        
+        custom_prompt_embeds = {}
+        for prompt in args.custom_text_prompt:
+            print(f'Encoding prompt: {prompt}')
+            prompt_embed = get_prior_embed(prompt, mineclip, prior, DEVICE)
+            custom_prompt_embeds[prompt] = prompt_embed
+            
         generate_text_prompt_videos(custom_prompt_embeds, args.in_model, args.in_weights, args.text_cond_scale,
                                     args.gameplay_length, args.save_dirpath)
     else:

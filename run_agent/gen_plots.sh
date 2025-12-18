@@ -27,8 +27,8 @@ COMMAND="xvfb-run -a python steve1/run_agent/run_chain.py \
     --text_cond_scale 6.0 \
     --save_dirpath data/generated_videos/multi_chain_test \
     --num_runs 30 \
-    --prompt_chain \
-        \"Simple Prompt|get dirt, dig hole, dig dirt, gather a ton of dirt, collect dirt:1500;Make a tower:1500\""
+       --prompt_chain \"get dirt, dig hole, dig dirt, gather a ton of dirt, collect dirt':1500; 'build a tower':1500\""
+
 
 # Run the command and get its exit status
 eval $COMMAND
